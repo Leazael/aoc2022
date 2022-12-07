@@ -1,12 +1,12 @@
 function move9000!(crates::Vector{Vector{Char}}, amount::Int64, from::Int64, to::Int64)
-    for k = 1:amount
+    for _ = 1:amount
         pushfirst!(crates[to], popfirst!(crates[from]))
     end
 end
 
 function move9001!(crates::Vector{Vector{Char}}, amount::Int64, from::Int64, to::Int64)
     prepend!(crates[to], crates[from][1:amount])
-    for k = 1:amount
+    for _ = 1:amount
         popfirst!(crates[from])
     end    
 end
@@ -24,7 +24,7 @@ function execute(dataLoc::String, stackFun::Function)::String
         crates = read_crates(io)
         
         while !eof(io)
-            move = match(r"move (\d*) from (\d*) to (\d*)" , readline(io)) |> collect |> x -> parse.(Int64, x)
+            move = match(r"move (\d*) from (\d*) to (\d*)" , readline(io)) |> x -> parse.(Int64, x)
             stackFun(crates, move...) 
         end
 
