@@ -9,8 +9,6 @@ function vis(M::Matrix{Int64})
     return out
 end
 
-+(vis(data)...) |> println
-
 dist(v::BitVector)::Int64 = any(v) ? findfirst(v) : length(v)
 dist(x::Int64, v::Vector{Int64})::Int64 = dist(v .>= x)
 dist(x::Int64, v::Vector{Int64}, w...)::Int64 = dist(x, v) * dist(x, w...)
@@ -23,4 +21,5 @@ function housevals(M::Matrix{Int64})
     return out
 end
 
++(vis(data)...) |> println
 max(housevals(data)...) |> println
