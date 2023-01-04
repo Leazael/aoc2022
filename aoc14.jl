@@ -22,13 +22,12 @@ function build_cave(walls::Vector{Vector{Int64}})
     for w in walls  
         cave[(w .- offset)...] = Wall
     end
-    cave[:,end] .= '#'
+    cave[:,end] .= Wall
     return (offset, cave )
 end
 
 function step!(cave::Matrix{Char}, s)::Bool
-    opts = [s + x for x in FallDirections]
-    filter!(y -> (y[2] in 1:size(cave,2)) && (y[1] in 1:size(cave,1)) && (cave[y...] == Free), opts)
+    filter!(y -> (y[2] in 1:size(cave,2)) && (y[1] in 1:size(cave,1)) && (cave[y...] == Free), [s + x for x in FallDirections])
 
     if isempty(opts) return false end
 
@@ -41,7 +40,7 @@ function drop!(cave::Matrix{Char}, s::Vector{Int64}, void::Int64)::Bool
 
     while step!(cave,s) end
 
-    if s[2] < size(cave,2) - void
+    if s[2] + void < size(cave,2)
         cave[s...] = Sand
         return true 
     else 
